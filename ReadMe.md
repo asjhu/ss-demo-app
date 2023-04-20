@@ -1,6 +1,6 @@
 ## BeyondTrust Secrets-Agent side car example
 #### Docs:  https://www.beyondtrust.com/docs/beyondinsight-password-safe/ps/integrations/kubernetes-secrets-agent/index.htm
-### Desciption
+### Description
 #### In app-deploy.yml, the side car line 10 runs alongside application line 50, retrieves the target directory "aks" (line 45) and writes the entire contents to files in a shared volume at /run/secrets (lines 22-24).  The application displays the content of rmq01_id and rmq01_key (lines 52-53 ./src/index.php).  In this case "TS-k8s" is a parent directory making the full path of secrets files /run/secrets/TS-k8s/aks
 ### Setup
 #### 1. Create an API registration in BeyondInsight (does not require a user password).
