@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+#  namespace: testing
+  name: demopod
+  labels:
+    app: php
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+  template:
+    metadata:
+      labels:
+        app: php
+    spec:
+      serviceAccountName: phpapp
+      containers:
+      - name: ssagent
+        image: beyondtrust/secrets-agent:latest
+        volumeMounts:
+          - name: secrets
+            mountPath: /run/secrets
+        ports:
+          - containerPort: 3000
+            name: secrets-agent
+        resources:
+          limits:
+            memory: "400Mi"
+        env:
+        - name: SECRETS_PATH
+          value: "/run/secrets"
+        - name: BT_API_URL
+          valueFrom:
+            secretKeyRef:
+              name: ss-creds
+              key: apiendpoint
+        - name: BT_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ss-creds
+              key: clientsecret
+        - name: SECRETS_LIST
+          value: "aks"
+        - name: POLLING_WAIT_BETWEEN_REQUESTS_MINUTES
+          value: "5"
+        - name: BT_VERIFY_CA
+          value: "True"
+      - name: php
+        image: phpapp:V1
+        volumeMounts:
+        - name: secrets
+          mountPath: /run/secrets
+      volumes:
+        - name: secrets
+          emptyDir:
+            medium: Memory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: php
+  name: php
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    nodePort: 30380
+  selector:
+    app: php
+  type: NodePort
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: phpapp
+  labels:
+    app: php

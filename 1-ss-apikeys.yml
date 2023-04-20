@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ss-creds
+  #namespace: testing
+type: Opaque
+data:
+  apiendpoint: aHR0cHM6Ly9zZXRlc3QucHMtc3RhZ2luZy5iZXlvbmR0cnVzdGNsb3VkLmNvbS9CZXlvbmR0cnVzdC9hcGkvcHVibGljL3Yz
+  clientsecret: ZTdkZjhhYjZlYzhmOWJlZTZlYmI1ZDI5ODA2M2EwNDY5MmNkNDU1MGI0NTg4NTBlY2Q4NDM2MGJhMDQ3MDc4Yjc3OGNlNWIwNjVjNzVmODBjNTZjNTI3YzY1ZTA0MTY0N2M1OWVkOTEzNDY2NWJjN2NlOTZmMThmYmZmYjhjZjQ7cnVuYXM9dHMtYWtzLWlkOw==
